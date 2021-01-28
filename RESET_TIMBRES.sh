@@ -1,0 +1,2 @@
+rm -rf ./data-pg-timbres ;  rm -rf ./pg-timbres ; rm -rf ./timbres ; ./setup-project.sh timbres
+docker stop $(docker ps -a -q) ; docker rm -f $(docker ps -a -q) ; docker-compose up --build --remove-orphans -d

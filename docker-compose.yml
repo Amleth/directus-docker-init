@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  traefik:
+    image: traefik
+    restart: always
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  pg-timbres:
+    build: ./pg-timbres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: coincoin
+      POSTGRES_USER: admin
+      POSTGRES_DB: directus
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data-pg-timbres/:/var/lib/postgresql
+  # pg-euterpe:
+  #   build: ./pg-euterpe
+  #   restart: always
+  #   environment:
+  #     POSTGRES_PASSWORD: coincoin
+  #     POSTGRES_USER: admin
+  #     POSTGRES_DB: directus
+  #   ports:
+  #     - 5433:5432
+  #   volumes:
+  #     - ./data-pg-test/:/var/lib/postgresql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    labels:
+      - "traefik.http.routers.directus-adminer.rule=(Host(`localhost`) && PathPrefix(`/adminer/`))"
+  timbres:
+    build: ./timbres
+    ports:
+      - 8055:8055
+    restart: always
+    labels:
+      - "traefik.http.routers.directus-adminer.rule=(Host(`localhost`) && PathPrefix(`/timbres/`))"
