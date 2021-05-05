@@ -2,7 +2,7 @@
 
 ## Obtenir un token
 
-curl -X POST -H "Content-Type: application/json" --data '{"email": "thomas.bottini@cnrs.fr", "password": "coincoin"}' http://localhost:8055/timbres/auth/login
+```curl -X POST -H "Content-Type: application/json" --data '{"email": "thomas.bottini@cnrs.fr", "password": "coincoin"}' http://localhost:8055/timbres/auth/login```
 
 ## Insérer un item
 
